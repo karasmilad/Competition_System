@@ -1,10 +1,15 @@
 import express from "express";
 import * as judgeController from "../controllers/judgeController.js";
+import { uploadJudgePhoto } from "../middleware/upload.js"
 const router = express.Router();
-//Get All Judges
+// GET All
 router.get("/", judgeController.getAllJudges);
-//Get Judge By Id
+// GET By ID
 router.get("/:id", judgeController.getJudgeById);
-//Create Judge
-router.post("/", judgeController.create);
+// CREATE with photo
+router.post("/", uploadJudgePhoto.single("photo"), judgeController.createJudge);
+// UPDATE with photo
+router.put("/:id", uploadJudgePhoto.single("photo"), judgeController.updateJudge);
+// DELETE
+router.delete("/:id", judgeController.deleteJudge);
 export default router

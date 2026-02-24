@@ -12,7 +12,7 @@ export const getAll = async () => {
 export const getJudgeById = async (id) => {
     try {
         const [rows] = await db.execute(
-            "SELECT id, name, email, photo FROM judge++++++++ WHERE id = ?",
+            "SELECT id, name, email, photo FROM judge WHERE id = ?",
             [id]
         );
         return rows[0];
@@ -32,6 +32,39 @@ export const createJudge = async (judge) => {
             judge.email,
             judge.password,
             judge.photo || null,
+        ]);
+        return result;
+    } catch (error) {
+        throw new Error("Database Error: " + error.message);
+    }
+};
+//Delete Judge
+export const deleteJudge = async (id) => {
+    try {
+        const sql = `
+            DELETE FROM judge
+            WHERE id = ?
+        `;
+        const [result] = await db.execute(sql, [id]);
+        return result;
+    } catch (error) {
+        throw new Error("Database Error: " + error.message);
+    }
+};
+//Update Judge
+export const updateJudge = async (id, judge) => {
+    try {
+        const sql = `
+            UPDATE judge
+            SET name = ?, email = ?, password = ?, photo = ?
+            WHERE id = ?
+        `;
+        const [result] = await db.execute(sql, [
+            judge.name,
+            judge.email,
+            judge.password,
+            judge.photo,
+            id
         ]);
         return result;
     } catch (error) {
