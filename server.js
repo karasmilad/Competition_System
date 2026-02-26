@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import db from './config/db.js'
 import judgeRoutes from "./routes/judgeRoutes.js";
+import submissionRoutes from "./routes/submissionRoute.js";
 
 dotenv.config()
 
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }))
 
 // Routes
 app.use("/api/judges", judgeRoutes)
+app.use("/api/submission", submissionRoutes)
 
 // Health Check
 app.get('/', (req, res) => {
@@ -27,7 +29,7 @@ const startServer = async () => {
 
         const PORT = process.env.PORT || 5000
         app.listen(PORT, () => {
-            console.log(`Server running on port ${PORT}`)
+            console.log(`Server running on port http://localhost:${PORT}`)
         })
 
     } catch (error) {
